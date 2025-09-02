@@ -5,29 +5,27 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Open Voraz</title>
 </head>
-<body>
+<body style="margin:0;display:flex;align-items:center;justify-content:center;height:100vh;font-family:system-ui,sans-serif">
+<a id="fallback" href="https://open.spotify.com/artist/54emVun9PakI9opV4aT5Jb" style="padding:14px 20px;border:1px solid #1db954;border-radius:8px;text-decoration:none;color:#1db954">Open in Spotify</a>
 <script>
-var artist_id="54emVun9PakI9opV4aT5Jb";
+var artist="54emVun9PakI9opV4aT5Jb";
 var ua=navigator.userAgent||"";
-var is_android=/Android/i.test(ua);
-var is_ios=/iPhone|iPad|iPod/i.test(ua);
-var app_uri="spotify://artist/"+artist_id;
-var web_url="https://open.spotify.com/artist/"+artist_id;
-var intent_url="intent://open.spotify.com/artist/"+artist_id+"#Intent;scheme=https;package=com.spotify.music;end";
+var isAndroid=/Android/i.test(ua);
+var isIOS=/iPhone|iPad|iPod/i.test(ua);
+var appURI="spotify://artist/"+artist;
+var webURL="https://open.spotify.com/artist/"+artist;
+var intentURL="intent://open.spotify.com/artist/"+artist+"#Intent;scheme=https;package=com.spotify.music;end";
 var fired=false;
-function on_visible_change(){if(document.hidden){fired=true}}
-document.addEventListener("visibilitychange",on_visible_change);
-function open_target(){
-  var d=Date.now();
-  var t=setTimeout(function(){if(!fired)location.replace(web_url)},1200);
+document.addEventListener("visibilitychange",function(){if(document.hidden){fired=true}});
+function openNow(){
+  setTimeout(function(){if(!fired)location.replace(webURL)},1200);
   try{
-    if(is_android){location.href=intent_url}
-    else if(is_ios){location.href=app_uri}
-    else{location.href=web_url}
-  }catch(e){}
-  setTimeout(function(){if(Date.now()-d<800&&!fired)location.replace(web_url)},700);
+    if(isAndroid){location.href=intentURL}
+    else if(isIOS){location.href=appURI}
+    else{location.href=webURL}
+  }catch(e){location.replace(webURL)}
 }
-open_target();
+openNow();
 </script>
 </body>
 </html>
