@@ -2,12 +2,32 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Redirecting...</title>
-<script>
-  window.location.replace("https://open.spotify.com/follow/1/?uri=spotify:artist:6qqNVTkY8uBg9cP3Jd7DAH&size=detail&theme=light");
-</script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open Voraz</title>
 </head>
 <body>
-<a href="https://open.spotify.com/follow/1/?uri=spotify:artist:6qqNVTkY8uBg9cP3Jd7DAH&size=detail&theme=light">Click here if you are not redirected</a>
+<script>
+var artist_id="54emVun9PakI9opV4aT5Jb";
+var ua=navigator.userAgent||"";
+var is_android=/Android/i.test(ua);
+var is_ios=/iPhone|iPad|iPod/i.test(ua);
+var app_uri="spotify://artist/"+artist_id;
+var web_url="https://open.spotify.com/artist/"+artist_id;
+var intent_url="intent://open.spotify.com/artist/"+artist_id+"#Intent;scheme=https;package=com.spotify.music;end";
+var fired=false;
+function on_visible_change(){if(document.hidden){fired=true}}
+document.addEventListener("visibilitychange",on_visible_change);
+function open_target(){
+  var d=Date.now();
+  var t=setTimeout(function(){if(!fired)location.replace(web_url)},1200);
+  try{
+    if(is_android){location.href=intent_url}
+    else if(is_ios){location.href=app_uri}
+    else{location.href=web_url}
+  }catch(e){}
+  setTimeout(function(){if(Date.now()-d<800&&!fired)location.replace(web_url)},700);
+}
+open_target();
+</script>
 </body>
 </html>
